@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Dorothy</title>
+<style>
+ body{margin:0;background:#120412;display:flex;justify-content:center;align-items:center;min-height:100vh;flex-direction:column}
+ #card{width:380px;background:#1a0a1a;border-radius:20px;overflow:hidden;text-align:center;padding-bottom:20px;box-shadow:0 20px 50px black;position:relative;z-index:2}
+ img{width:100%;display:block}
+ h1{font-family:cursive;color:#fff5c0;font-size:42px;margin:15px 0;text-shadow:0 0 15px #ff8fbf}
+ p{color:#ffb9cc}
+ button{background:#ff3f8a;color:white;border:none;padding:16px 30px;border-radius:30px;font-size:20px;font-weight:bold;margin-top:10px;cursor:pointer;box-shadow:0 0 20px #ff3f8a;transition:transform 0.2s}
+ button:active{transform:scale(0.95)}
+ #hearts{font-size:24px;margin:10px 0}
+ 
+ /* Confetti & Floating animation styles */
+ .confetti {
+   position: fixed;
+   width: 10px;
+   height: 10px;
+   background-color: #ff3f8a;
+   position: absolute;
+   top: -10px;
+   z-index: 1;
+   animation: fall linear forwards;
+ }
+ @keyframes fall {
+   to {
+     transform: translateY(105vh) rotate(360deg);
+   }
+ }
+ @keyframes float {
+   0% { transform: translateY(0px); }
+   50% { transform: translateY(-10px); }
+   100% { transform: translateY(0px); }
+ }
+ .floating-hearts {
+   animation: float 3s ease-in-out infinite;
+ }
+</style>
+</head>
+<body>
+
+<div id="card">
+  <img src="https://raw.githubusercontent.com/placeholder/test/main/dorothy.jpg" id="mainImg" alt="Birthday" onerror="this.src='https://i.postimg.cc/placeholder-dorothy.jpg'">
+  <h1>Happy Birthday<br>Dorothy</h1>
+  <p>💖 Celebrate your special day with love & joy 💖</p>
+  <div id="hearts" class="floating-hearts">💗 💖 💝 💗</div>
+  <button onclick="playMusic()">💖 TAP TO PLAY MUSIC 💖</button>
+  <audio id="song" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_7e7f83b2e1.mp3" type="audio/mpeg">
+  </audio>
+  <p style="font-size:11px;color:#ffffff66;margin-top:15px">Want Harmonize version? Replace song src with harmonize.mp3</p>
+</div>
+
+<script>
+function playMusic(){
+  const song = document.getElementById('song');
+  
+  // Play audio and handle browser autoplay restrictions gently
+  song.play().catch(error => {
+    console.log("Playback prevented by browser. Click again to play.");
+  });
+  
+  // Upgrade the heart display
+  document.getElementById('hearts').innerHTML = "💗💖💝💗💖💝💗💖💝💗💖💝💗";
+  
+  // Trigger modern interactive confetti explosion instead of a blocking alert popup
+  createConfetti();
+}
+
+function createConfetti() {
+  const colors = ['#ff3f8a', '#ffb9cc', '#fff5c0', '#ff8fbf', '#e033ff'];
+  for (let i = 0; i < 100; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    
+    // Randomize positions, colors, and animation speeds
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+    confetti.style.opacity = Math.random();
+    confetti.style.width = confetti.style.height = (Math.random() * 8 + 6) + 'px';
+    
+    document.body.appendChild(confetti);
+    
+    // Clean up memory after animation finishes
+    setTimeout(() => {
+      confetti.remove();
+    }, 5000);
+  }
+}
+</script>
+</body>
+</html>
